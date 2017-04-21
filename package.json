@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node --use_strict index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha --timeout 10000"
   },
   "repository": {
     "type": "git",
@@ -25,7 +25,9 @@
   },
   "homepage": "https://github.com/avant-js/hapi-api-example#readme",
   "dependencies": {
+    "chai": "^3.5.0",
     "hapi": "^16.1.1",
+    "mocha": "^3.2.0",
     "mongoose": "^4.9.5"
   }
 }

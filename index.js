@@ -14,8 +14,12 @@ server.connection({ port: config.port, host: config.host, router:{stripTrailingS
 // Import routes
 server.route(routes);
 
-// Start Hapi server
-server.start((err) => {
-    if (err) throw err;
-    console.log(`Server running at: ${server.info.uri}`);
-});
+// Start Hapi server if not being imported
+if (!module.parent) {
+    server.start((err) => {
+        if (err) throw err;
+        console.log(`Server running at: ${server.info.uri}`);
+    });
+}
+
+module.exports = server;
