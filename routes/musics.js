@@ -1,11 +1,11 @@
-'use strict'
+const Music = require('../models/music');
 
 const getAll = {
     method: 'GET',
     path: '/musics'
 };
 getAll.handler = (req, reply) => {
-    reply('get all musics');
+    reply(Music.find());
 };
 
 const get = { 
@@ -13,7 +13,7 @@ const get = {
     path: '/musics/{id}' 
 };
 get.handler = (req, reply) => {
-    reply(`get music with id = ${req.params.id}`);
+    reply(Music.findById(req.params.id));
 };
 
 const post = {
@@ -21,7 +21,8 @@ const post = {
     path: '/musics'
 };
 post.handler = (req, reply) => {
-    reply(`create new music with data = ${req.payload}`);
+    const newMusic = new Music(req.payload);
+    reply(newMusic.save());
 }
 
 const put = { 
@@ -29,7 +30,13 @@ const put = {
     path: '/musics/{id}'
 };
 put.handler = (req, reply) => {
-    reply(`update music with id = ${req.params.id}`);
+    let updatedValues = req.payload;
+
+    // Avoid changes to mongo internal id and version
+    if(updatedValues._id) delete updatedValues._id;
+    if(updatedValues.__v) delete updatedValues.__v;
+
+    reply(Music.update(req.params.id, updatedValues));
 }
 
 const del = { 
@@ -37,7 +44,7 @@ const del = {
     path: '/musics/{id}'
 };
 del.handler = (req, reply) => {
-    reply(`delete music with id = ${req.params.id}`);
+    reply(Music.findOneAndRemove({_id: req.params.id}));
 }
 
 module.exports = [

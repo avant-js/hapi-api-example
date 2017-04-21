@@ -4,7 +4,7 @@
   "description": "An example API with Hapi and MongoDB",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "node --use_strict index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/avant-js/hapi-api-example#readme",
   "dependencies": {
-    "hapi": "^16.1.1"
+    "hapi": "^16.1.1",
+    "mongoose": "^4.9.5"
   }
 }
