@@ -3,6 +3,9 @@ const Hapi = require('hapi'),
     config = require('./config'),
     routes = require('./routes');
 
+const winston = require('winston');
+
+
 // Initialize mongo db connection
 mongoose.Promise = global.Promise;
 mongoose.connect(config.mongoUrl);
@@ -14,11 +17,27 @@ server.connection({ port: config.port, host: config.host, router:{stripTrailingS
 // Import routes
 server.route(routes);
 
+server.register(require('inert'), (err) => {
+    if (err) {
+        throw err;
+    }
+
+    server.route({
+        method: 'GET',
+        path: '/docs/{param*}',
+        handler: {
+            directory: {
+                path: 'public/docs'
+            }
+        }
+    });
+});
+
 // Start Hapi server if not being imported
 if (!module.parent) {
     server.start((err) => {
         if (err) throw err;
-        console.log(`Server running at: ${server.info.uri}`);
+        winston.log(`Server running at: ${server.info.uri}`);
     });
 }
 

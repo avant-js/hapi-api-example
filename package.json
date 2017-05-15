@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "node --use_strict index.js",
-    "test": "mocha --timeout 10000"
+    "test": "nyc --reporter=html --reporter=text mocha",
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
+    "lint": "eslint --fix **/*.js"
   },
   "repository": {
     "type": "git",
@@ -26,10 +28,16 @@
   "homepage": "https://github.com/avant-js/hapi-api-example#readme",
   "dependencies": {
     "hapi": "^16.1.1",
-    "mongoose": "^4.9.5"
+    "inert": "^4.2.0",
+    "mongoose": "^4.9.5",
+    "winston": "^2.3.1"
   },
   "devDependencies": {
     "chai": "^3.5.0",
+    "coveralls": "^2.13.1",
+    "eslint": "^3.19.0",
+    "istanbul": "^0.4.5",
+    "jshint": "^2.9.4",
     "mocha": "^3.2.0"
   }
 }
